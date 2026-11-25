@@ -1,0 +1,90 @@
+{
+  "name": "Kodie Desafio",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "classificador",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9d87fe88-88c1-4e60-8db5-9603e86d118d",
+      "name": "Webhook",
+      "webhookId": "08394676-66c1-4df4-8678-c5f165eea65d"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/classificar",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"mensagem\": \"{{ $json.body.mensagem }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "6544c5b9-4123-4b72-8681-095e291f7589",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        416,
+        16
+      ],
+      "id": "c72cb2f2-b7e5-439b-b3f3-868f4c5a9c14",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "691e4ecd-60a2-4ce9-92c3-3b07a0a7519f",
+  "meta": {
+    "instanceId": "0d331e262e62e901ca7ee388bfb10946fa7285185dcd84288551bb2718d91fea"
+  },
+  "nodeGroups": [],
+  "id": "jcsofzm4iC83qNBj",
+  "tags": []
+}
